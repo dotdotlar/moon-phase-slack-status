@@ -1,0 +1,24 @@
+{
+  "name": "moon-phase-slack-status",
+  "version": "0.0.1",
+  "description": "Set your status on Slack based on the current phase of the moon.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotdotlar/moon-phase-slack-status.git"
+  },
+  "author": "Larry Esmonde",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dotdotlar/moon-phase-slack-status/issues"
+  },
+  "homepage": "https://github.com/dotdotlar/moon-phase-slack-status",
+  "dependencies": {
+    "axios": "0.16.1",
+    "dotenv": "^4.0.0",
+    "suncalc": "^1.8.0"
+  }
+}
