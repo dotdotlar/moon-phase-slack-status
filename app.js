@@ -7,6 +7,8 @@ const querystring = require("querystring");
 const config = require("./config");
 const suncalc = require("suncalc");
 
+var printf = require('printf');
+
 if (!config.slackToken) {
     console.error("Missing Slack token. Set it in config.js");
     process.exit(1);
@@ -21,16 +23,16 @@ function getMoonPhase(timeAndDate) {
         var illumObj = suncalc.getMoonIllumination(timeAndDate);
 
         if (illumObj != null) {
-            if ((illumObj.phase <= 0.02) || (illumObj.phase >= 0.98)) {
+            if ((illumObj.phase <  0.05) || (illumObj.phase > 0.95)) {
                 phaseName = "newmoon";
             }
-            else if ((illumObj.phase > 0.02) && (illumObj.phase < 0.23)) {
+            else if ((illumObj.phase >= 0.05) && (illumObj.phase < 0.22)) {
                 phaseName = "waxingcrescent";
             }
-            else if ((illumObj.phase >= 0.23) && (illumObj.phase <= 0.27)) {
+            else if ((illumObj.phase >= 0.22) && (illumObj.phase <= 0.29)) {
                 phaseName = "firstquarter";
             }
-            else if ((illumObj.phase > 0.27) && (illumObj.phase < 0.48)) {
+            else if ((illumObj.phase > 0.29) && (illumObj.phase < 0.48)) {
                 phaseName = "waxinggibbous";
             }
             else if ((illumObj.phase >= 0.48) && (illumObj.phase <= 0.52)) {
@@ -39,10 +41,10 @@ function getMoonPhase(timeAndDate) {
             else if ((illumObj.phase > 0.52) && (illumObj.phase < 0.73)) {
                 phaseName = "waninggibbous";
             }
-            else if ((illumObj.phase >= 0.73) && (illumObj.phase <= 0.77)) {
+            else if ((illumObj.phase >= 0.73) && (illumObj.phase <= 0.78)) {
                 phaseName = "lastquarter";
             }
-            else if ((illumObj.phase > 0.77) && (illumObj.phase < 0.98)) {
+            else if ((illumObj.phase > 0.78) && (illumObj.phase <= 0.95)) {
                 phaseName = "waningcrescent";
             }
         }
@@ -67,6 +69,13 @@ function setSlackStatus(token, status) {
         });
 }
 
+var printPhaseStatus = function() {
+    var currDateTime = new Date();
+    var phaseName = getMoonPhase(currDateTime);
+    var illumObj = suncalc.getMoonIllumination(currDateTime);
+    console.log(currDateTime.toLocaleString() + ": Moon phase data: percent=%f, name=%s\n",illumObj.phase,phaseName);
+}
+
 var getPhaseSetStatus = function() {
     var phaseName = getMoonPhase(new Date());
     if (phaseName != "") {
@@ -78,8 +87,10 @@ var getPhaseSetStatus = function() {
  * "-s" means "Stay resident", running every config.interval
  */
 
-if (process.argv[2] == "-s") {
-    console.log("Staying resident.  Interval is %d seconds",(config.updateInterval/1000));
+if (process.argv[2] == "-p") {
+    printPhaseStatus();
+}
+else if (process.argv[2] == "-s") {
     getPhaseSetStatus();
     setInterval(getPhaseSetStatus, config.updateInterval);
 }
