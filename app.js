@@ -23,28 +23,28 @@ function getMoonPhase(timeAndDate) {
         var illumObj = suncalc.getMoonIllumination(timeAndDate);
 
         if (illumObj != null) {
-            if ((illumObj.phase <  0.05) || (illumObj.phase > 0.95)) {
+            if ((illumObj.phase <= 0.03) || (illumObj.phase >= 0.97)) {
                 phaseName = "newmoon";
             }
             else if ((illumObj.phase >= 0.05) && (illumObj.phase < 0.22)) {
                 phaseName = "waxingcrescent";
             }
-            else if ((illumObj.phase >= 0.22) && (illumObj.phase <= 0.29)) {
+            else if ((illumObj.phase >= 0.22) && (illumObj.phase <= 0.28)) {
                 phaseName = "firstquarter";
             }
-            else if ((illumObj.phase > 0.29) && (illumObj.phase < 0.48)) {
+            else if ((illumObj.phase > 0.28) && (illumObj.phase < 0.47)) {
                 phaseName = "waxinggibbous";
             }
-            else if ((illumObj.phase >= 0.48) && (illumObj.phase <= 0.52)) {
+            else if ((illumObj.phase >= 0.47) && (illumObj.phase <= 0.53)) {
                 phaseName = "fullmoon";
             }
-            else if ((illumObj.phase > 0.52) && (illumObj.phase < 0.73)) {
+            else if ((illumObj.phase > 0.53) && (illumObj.phase < 0.72)) {
                 phaseName = "waninggibbous";
             }
-            else if ((illumObj.phase >= 0.73) && (illumObj.phase <= 0.78)) {
+            else if ((illumObj.phase >= 0.72) && (illumObj.phase <= 0.78)) {
                 phaseName = "lastquarter";
             }
-            else if ((illumObj.phase > 0.78) && (illumObj.phase <= 0.95)) {
+            else if ((illumObj.phase > 0.78) && (illumObj.phase < 0.97)) {
                 phaseName = "waningcrescent";
             }
         }
@@ -62,7 +62,7 @@ function setSlackStatus(token, status) {
             "Content-Type": "application/x-www-form-urlencoded"
           }
         }).then(function(response) {
-            console.log("Set Slack status API response: %j", response.data);
+            // console.log("Set Slack status API response: %j", response.data);
         })
         .catch(function(error) {
             console.error("Set Slack status error: %s", error);
