@@ -23,7 +23,7 @@ function getMoonPhase(timeAndDate) {
         var illumObj = suncalc.getMoonIllumination(timeAndDate);
 
         if (illumObj != null) {
-            if ((illumObj.phase <= 0.03) || (illumObj.phase >= 0.97)) {
+            if ((illumObj.phase <= 0.05) || (illumObj.phase >= 0.97)) {
                 phaseName = "newmoon";
             }
             else if ((illumObj.phase >= 0.05) && (illumObj.phase < 0.22)) {
@@ -83,18 +83,33 @@ var getPhaseSetStatus = function() {
     }
 }
 
+function checkInternetNameResolution() {
+    console.log("Checking DNS resolution of slack.com");
+    require('dns').resolve('slack.com', function(err) {
+        console.log("err=" + err);
+        if (err) {
+            console.log("Cannot resolve slack.com address");
+            process.exit(1);
+        } 
+    });
+}
+
 /*
  * "-s" means "Stay resident", running every config.interval
  */
+
+// checkInternetNameResolution();
 
 if (process.argv[2] == "-p") {
     printPhaseStatus();
 }
 else if (process.argv[2] == "-s") {
+//    checkInternetNameResolution();
     getPhaseSetStatus();
     setInterval(getPhaseSetStatus, config.updateInterval);
 }
 else {
     // call it once.  Assume user has set up cron job or task scheduler
+//    checkInternetNameResolution();
     getPhaseSetStatus();
 }

@@ -1,5 +1,5 @@
 module.exports = {
-    slackToken: "xoxp-...........-...........-............-................................", //Paste your own slack token here
+    slackToken: "xoxp-...........-...........-............-................................", # replace with your own Slack API token
     statusByPhase: {
         "newmoon": {
           "status_text": "New Moon",
